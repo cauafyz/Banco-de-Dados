@@ -1,0 +1,73 @@
+create database andorinha;
+
+
+create table linhas
+(
+codigo integer,
+nome varchar(45),
+km decimal,
+valor decimal
+);	
+
+alter table linhas
+add constraint pk_codigo primary key(codigo);
+
+
+create table onibus 
+(
+codigo_onibus integer,
+numero varchar(8),
+placa varchar (5),
+potencia varchar (8),
+autonomia numeric,
+assento integer
+
+);
+
+alter table onibus
+add constraint pk_codigo_onibus primary key(codigo_onibus);
+
+create table motorista
+(
+codigo_motorista integer,
+cnh varchar(20),
+nome varchar(60)
+);
+
+alter table motorista
+add constraint pk_codigo_motorista primary key(codigo_motorista);
+
+ALTER DATABASE andorinha RENAME TO cometa
+
+alter table linhas 
+add
+dt_cadastro date
+
+alter table onibus
+add
+cor varchar(20)
+
+alter table motorista 
+add 
+Salario numeric(10,2)
+
+alter table motorista
+drop salario
+
+create table destinada (
+codigo integer,
+codigo_onibus integer
+) 
+
+alter table destinada
+
+add constraint fk_codigo_onibus 
+
+foreign key (codigo_onibus)
+
+references onibus (codigo_onibus)
+
+
+
+
+create index cnh_index on motorista (cnh)
