@@ -1,0 +1,141 @@
+create database caua;
+
+------------------------------------------------------------------------------------------------------------
+
+create table depto(
+iddepto integer,
+nomedepto varchar(60)
+);
+
+alter table depto
+add constraint pk_iddepto primary key(iddepto);
+
+create table empregados(
+idempregado integer,
+depto_iddepto integer,
+nomeempregado varchar(60),
+dtadmissao date,
+perctcomissao numeric(2,0),
+idade integer,
+sexo char(1),
+est_civil char(1),
+salario numeric(10,2)
+);
+
+alter table empregados
+add constraint pk_idempregado primary key(idempregado);
+
+alter table empregados
+add constraint fk_depto_iddepto foreign key(depto_iddepto) references depto(iddepto);
+
+
+create table dependente(
+iddependente integer,
+empregados_idempregado integer,
+nomedependente varchar(60),
+idade integer,
+sexo char(1),
+CONSTRAINT pk_iddependente PRIMARY KEY (iddependente, empregados_idempregado),
+CONSTRAINT fk_empregados_idempregado FOREIGN KEY (empregados_idempregado) 
+REFERENCES empregados(idempregado)
+);
+
+------------------------------------------------------------------------------------------------------------
+
+SET datestyle TO ISO, DMY;
+
+insert into depto values(1,'Informática');
+insert into depto values(2,'CONTABILIDADE');
+insert into depto values(3,'financeiro');
+insert into depto values(4,'PRODUÇÃO');
+insert into depto values(5,'RH');
+
+/* 7*/ select * from depto;
+
+
+insert into empregados values(100,1,'Carlos da Silveira','20-05-1994',0,35,'M','C',1200);
+insert into empregados values(101,2,'Luiza Maravilha','15-07-1994',0,18,'F','S',530);
+insert into empregados values(102,3,'Soraia Batistuta','08-01-1995',0,27,'F','C',890);
+insert into empregados values(103,4,'Luiz Americo de Brito','20-03-1995',0,42,'M','C',2500);
+insert into empregados values(104,5,'Marcos de Assunção e Lima','09-05-1995',0,19,'M','S',395);
+insert into empregados values(105,2,'Lurdes Venâncio','24-05-1995',0,35,'F','V',780);
+insert into empregados values(106,3,'Leonardo Castro da Cruz','10-08-1995',0,25,'M','C',890);
+insert into empregados values(107,5,'Luis Carlos de Souza','07-10-1995',0,27,'M','S',1100);
+insert into empregados values(108,2,'Sandra Aparecida de Lima','29-10-1995',0,18,'F','C',750);
+insert into empregados values(109,4,'Patricia Fuzino','21-11-1995',0,21,'F','S',490);
+insert into empregados values(110,5,'Suzete Carvalho','21-11-1995',0,30,'F','C',550);
+insert into empregados values(111,1,'Marcio dos Santos','06-12-1995',0,47,'M','V',1100);
+insert into empregados values(112,2,'Jose da Silva Cascata','20-01-1996',0,30,'M','C',1000);
+insert into empregados values(113,3,'Marcos Palmeira de Lima','18-05-1996',0,20,'M','S',700);
+insert into empregados values(114,4,'Jose Vasco dos Santos','25-05-1996',0,22,'M','C',660);
+insert into empregados values(115,5,'Maria da Graça dos Santos','28-08-1996',0,35,'F','C',750);
+insert into empregados values(116,4,'Laercio Vicente de Castro','10-06-1996',0,26,'M','C',1500);
+insert into empregados values(117,3,'Fatima Pincete Vivenda','23-09-1996',0,38,'F','C',900);
+
+/* 8*/ select * from empregados;
+
+insert into dependente values(1,100,'Francisco da Silveira',7,'M');
+insert into dependente values(1,102,'Nicete Luiza Batistuta',5,'F');
+insert into dependente values(2,102,'Carlos Luiz Batistuta',3,'M');
+insert into dependente values(1,106,'Marcio Castro da Cruz',7,'M');
+insert into dependente values(2,106,'Marcia Castro da Cruz',5,'F');
+insert into dependente values(3,106,'Marta Castro da Cruz',2,'F');
+insert into dependente values(1,110,'Vitor Carvalho',10,'M');
+insert into dependente values(2,110,'Wilson Carvalho',8,'M');
+insert into dependente values(1,111,'João Vitor dos Santos',16,'M');
+insert into dependente values(2,111,'Mara Cristina dos Santos',14,'F');
+insert into dependente values(1,112,'Lucia da Silva Cascata',9,'F');
+insert into dependente values(1,115,'Sueli Mirtes dos Santos',11,'F');
+insert into dependente values(2,115,'Suelen dos Santos',10,'F');
+insert into dependente values(1,117,'Graça Maria Pincete Vivenda',12,'F');
+insert into dependente values(2,117,'Sergio Pincete Vivenda',10,'M');
+insert into dependente values(3,117,'Carlos Pincete Vivenda',8,'M'); 
+
+/* 9*/ select * from dependente;
+ 
+ ------------------------------------------------------------------------------------------------------------
+
+/* 10*/ select nomeempregado,idade,salario from empregados;
+
+/* 11*/ select nomeempregado,idade,salario from empregados
+where (idade>30);
+
+/* 12*/ select idempregado,nomeempregado,dtadmissao,salario from empregados
+where (dtadmissao>'01/01/1996');
+
+/* 13*/	select nomeempregado,salario from empregados
+where (salario<1000);
+
+/* 14*/ select nomeempregado,salario,est_civil from empregados
+where (est_civil='C');
+
+/* 15*/ select nomedependente,idade,sexo from dependente;
+
+/* 16*/ select nomedependente,idade from dependente
+where (idade>18);
+
+
+/* 17*/ select idempregado from empregados
+where (nomeempregado='Leonardo Castro da Cruz');
+
+select nomedependente from dependente
+where (empregados_idempregado = 106);
+
+/* 18*/ select iddepto from depto
+where (nomedepto= 'CONTABILIDADE');
+
+select nomeempregado from empregados
+where (depto_iddepto = 2);
+
+/* 19*/ select idempregado,dtadmissao,'lindo' as Literal,sexo from empregados;
+
+/* 20*/ select nomeempregado as  Nome_Empregado, salario as Salario  from empregados
+where (sexo='M');
+
+/* 21*/ select nomeempregado,sexo,salario,(salario * 1.25) as Novo_Salario from empregados
+where (salario <950)
+ORDER BY salario;   /*order by salario;(order by salario ASC) /  order by salario DESC*/
+
+
+
+
